@@ -1,0 +1,4 @@
+-Reformar la generacion del codigo a romper del juego
+
+-Incrementar los posibles valores que admite el juego a 9
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mastermind Game</title>
+  <style>
+    /* open space for CSS styles here */
+  </style>
+</head>
+<body>
+  <h1>Mastermind Game</h1>
+  <p>En Mastermind compiten 2 jugadores...</p>
+  <button id="playButton">Comenzar Juego</button>
+  <div id="game" style="display: none;">
+    <div id="instructions"></div>
+    <div id="attempts"></div>
+    <div id="results"></div>
+    <input type="text" id="guessInput" placeholder="Ingresa tu adivinanza">
+    <button id="submitGuess">Adivinar</button>
+  </div>
+
+  <script>
+    const game = {
+      code: [1, 2, 4, 4],
+      attempts: 0,
+      maxAttempts: 10,
+      isGameOver: false,
+    };
+
+    function showMessage(message) {
+      const instructions = document.getElementById("instructions");
+      instructions.textContent = message;
+    }
+
+    function showResults(correct, approximation) {
+      const results = document.getElementById("results");
+      results.textContent = `Correcto: ${correct}, Aproximación: ${approximation}`;
+    }
+
+    function checkGuess() {
+      if (game.isGameOver) {
+        showMessage("El juego ha terminado.");
+        return;
+      }
+
+      const guessInput = document.getElementById("guessInput");
+      const guess = guessInput.value
+        .split("")
+        .map((digit) => parseInt(digit, 10));
+
+      if (guess.length !== 4 || guess.some((digit) => isNaN(digit) || digit < 1 || digit > 4)) {
+        showMessage("Ingresa una adivinanza válida (cuatro dígitos del 1 al 4).");
+        return;
+      }
+
+      game.attempts++;
+
+      let correct = 0;
+      let approximation = 0;
+
+      for (let i = 0; i < 4; i++) {
+        if (guess[i] === game.code[i]) {
+          correct++;
+        } else if (game.code.includes(guess[i])) {
+          approximation++;
+        }
+      }
+
+      showResults(correct, approximation);
+
+      if (correct === 4) {
+        game.isGameOver = true;
+        showMessage("¡ENHORABUENA! Has adivinado el código.");
+      } else if (game.attempts >= game.maxAttempts) {
+        game.isGameOver = true;
+        showMessage("LO SIENTO. No has adivinado el código. Inténtalo de nuevo.");
+      }
+
+      if (!game.isGameOver) {
+        guessInput.value = "";
+        showMessage(`Estás en el intento ${game.attempts}.`);
+      }
+    }
+
+    document.getElementById("playButton").addEventListener("click", () => {
+      document.getElementById("game").style.display = "block";
+      document.getElementById("playButton").style.display = "none";
+      showMessage("Estás en el intento 1.");
+    });
+
+    document.getElementById("submitGuess").addEventListener("click", checkGuess);
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "mastermind",
+  "version": "1.0.0",
+  "description": "final project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanmrfunes"
+  },
+  "keywords": [
+    "quake"
+  ],
+  "author": "juan",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
