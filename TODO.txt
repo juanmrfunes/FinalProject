@@ -1,4 +1,14 @@
--Reformar la generacion del codigo a romper del juego
+-Reformar la generacion del codigo a romper del juego dependiendo si el
+codemaker es otro jugador (generar codigo personalizado) o la CPU (codigo aleatorio)
+Quizas tambien ofrecer la opcion de codigo aleatorio al jugador?
 
--Incrementar los posibles valores que admite el juego a 9
+-Agregar opcion para admitir o rechazar repeticion de numeros en el codigo
 
+-Incrementar los posibles valores que puede tomar el código a romper/adivinar 
+a 9 (o quizas 10)
+
+-Reformar la logica del juego para que permita múltiples jugadores
+
+-Modificar NodeServer para soportar la conexion de multiples clientes (jugadores)
+y que se puedan organizar partidas en salas separadas (hecho en MPServer, 
+necesita mas testing)

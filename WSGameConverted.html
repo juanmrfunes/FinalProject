@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mastermind Game</title>
+</head>
+<body>
+  <h1>Mastermind Game</h1>
+  <div id="instructions">Esperando a otro jugador...</div>
+  <div id="game" style="display: none;">
+    <div id="results"></div>
+    <input type="text" id="guessInput" placeholder="Ingresa tu adivinanza">
+    <button id="submitGuess">Adivinar</button>
+  </div>
+  
+  <script>
+    const ws = new WebSocket("ws://localhost:8080");  // Check your WebSocket adress
+
+    ws.onopen = () => {
+      document.getElementById("instructions").textContent = "¡Jugador conectado!";
+      document.getElementById("game").style.display = "block";
+    };
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === "results") {
+        showResults(message.correct, message.approximation);
+      } else if (message.type === "gameover") {
+        gameIsOver(message.message);
+      }
+    };
+
+    function showResults(correct, approximation) {
+      const results = document.getElementById("results");
+      results.textContent = `Correcto: ${correct}, Aproximación: ${approximation}`;
+    }
+
+    function gameIsOver(message) {
+      const instructions = document.getElementById("instructions");
+      instructions.textContent = message;
+      document.getElementById("submitGuess").disabled = true;
+    }
+
+    function sendGuess() {
+      const guessInput = document.getElementById("guessInput");
+      const guess = guessInput.value;
+      ws.send(guess);
+      guessInput.value = "";
+    }
+
+    document.getElementById("submitGuess").addEventListener("click", sendGuess);
+  </script>
+</body>
+</html>
